@@ -1,27 +1,22 @@
-import express from 'express'
-import payload from 'payload'
+import express from "express";
+import payload from "payload";
+import cors from "cors";
 
-require('dotenv').config()
-const app = express()
+const app = express();
 
-// Redirect root to Admin panel
-app.get('/', (_, res) => {
-  res.redirect('/admin')
-})
+// Configure CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === "production"
+    ? ["https://topgear.onrender.com"]
+    : ["http://localhost:3000"],
+  credentials: true,
+}));
 
-const start = async () => {
-  // Initialize Payload
-  await payload.init({
-    secret: process.env.PAYLOAD_SECRET,
-    express: app,
-    onInit: async () => {
-      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
-    },
-  })
+// Initialize Payload
+payload.init({
+  secret: process.env.PAYLOAD_SECRET || "default-secret-key",
+  mongoURL: process.env.DATABASE_URI || "mongodb://localhost/topgear",
+  express: app,
+});
 
-  // Add your own express routes here
-
-  app.listen(3000)
-}
-
-start()
+app.listen(process.env.PORT || 3001);
