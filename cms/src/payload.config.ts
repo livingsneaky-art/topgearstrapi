@@ -2,7 +2,7 @@ import { buildConfig } from "payload/config";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { slateEditor } from "@payloadcms/richtext-slate";
-import { seoPlugin } from "@payloadcms/plugin-seo";
+import seoPlugin from "@payloadcms/plugin-seo";
 import path from "path";
 import { Users, Media, Vehicles, Articles, Comments } from "./collections";
 
@@ -32,7 +32,7 @@ export default buildConfig({
       collections: ["articles", "vehicles"],
     }),
   ],
-  database: mongooseAdapter({
+  db: mongooseAdapter({
     url: process.env.DATABASE_URI || "mongodb://localhost:27017/topgear",
   }),
   editor: slateEditor({}),

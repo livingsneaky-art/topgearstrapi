@@ -1,13 +1,5 @@
-import { Users } from "./Users";
-import { Media } from "./Media";
-import { Vehicles } from "./Vehicles";
-import { Articles } from "./Articles";
-import { Comments } from "./Comments";
-
-export const collections = {
-  Users,
-  Media,
-  Vehicles,
-  Articles,
-  Comments
-};
+export { default as Users } from "./Users";
+export { default as Media } from "./Media";
+export { default as Vehicles } from "./Vehicles";
+export { default as Articles } from "./Articles";
+export { default as Comments } from "./Comments";
