@@ -188,8 +188,118 @@ export const Vehicles: CollectionConfig = {
           name: "keywords",
           type: "text",
           label: "SEO Keywords"
+        },
+        {
+          name: "metaImage",
+          type: "upload",
+          relationTo: "media",
+          label: "Social Share Image"
         }
       ]
+    },
+    {
+      name: "reviews",
+      type: "array",
+      admin: {
+        description: "User reviews and ratings"
+      },
+      fields: [
+        {
+          name: "user",
+          type: "relationship",
+          relationTo: "users",
+          required: true
+        },
+        {
+          name: "rating",
+          type: "select",
+          options: [
+            { label: "1 Star", value: "1" },
+            { label: "2 Stars", value: "2" },
+            { label: "3 Stars", value: "3" },
+            { label: "4 Stars", value: "4" },
+            { label: "5 Stars", value: "5" }
+          ],
+          required: true
+        },
+        {
+          name: "comment",
+          type: "textarea",
+          required: true
+        },
+        {
+          name: "createdAt",
+          type: "date",
+          admin: {
+            readOnly: true
+          }
+        }
+      ]
+    },
+    {
+      name: "inquiries",
+      type: "array",
+      admin: {
+        description: "Lead generation inquiries"
+      },
+      fields: [
+        {
+          name: "name",
+          type: "text",
+          required: true
+        },
+        {
+          name: "email",
+          type: "email",
+          required: true
+        },
+        {
+          name: "phone",
+          type: "text"
+        },
+        {
+          name: "type",
+          type: "select",
+          options: [
+            { label: "General Inquiry", value: "general" },
+            { label: "Test Drive Request", value: "test_drive" },
+            { label: "Price Quote", value: "price_quote" }
+          ],
+          required: true
+        },
+        {
+          name: "message",
+          type: "textarea",
+          required: true
+        },
+        {
+          name: "status",
+          type: "select",
+          options: [
+            { label: "New", value: "new" },
+            { label: "In Progress", value: "in_progress" },
+            { label: "Completed", value: "completed" }
+          ],
+          defaultValue: "new",
+          required: true
+        },
+        {
+          name: "createdAt",
+          type: "date",
+          admin: {
+            readOnly: true
+          }
+        }
+      ]
+    },
+    {
+      name: "relatedVehicles",
+      type: "relationship",
+      relationTo: "vehicles",
+      hasMany: true,
+      admin: {
+        description: "Similar vehicles for recommendations"
+      }
     }
   ]
 };

@@ -49,6 +49,53 @@ export const Articles: CollectionConfig = {
       required: true
     },
     {
+      name: "gallery",
+      type: "array",
+      admin: {
+        description: "Image gallery for the article"
+      },
+      fields: [
+        {
+          name: "image",
+          type: "upload",
+          relationTo: "media",
+          required: true
+        },
+        {
+          name: "caption",
+          type: "text"
+        }
+      ]
+    },
+    {
+      name: "embeddedMedia",
+      type: "array",
+      admin: {
+        description: "Embedded videos, social media posts, etc."
+      },
+      fields: [
+        {
+          name: "type",
+          type: "select",
+          options: [
+            { label: "YouTube Video", value: "youtube" },
+            { label: "Instagram Post", value: "instagram" },
+            { label: "Twitter Post", value: "twitter" }
+          ],
+          required: true
+        },
+        {
+          name: "url",
+          type: "text",
+          required: true
+        },
+        {
+          name: "caption",
+          type: "text"
+        }
+      ]
+    },
+    {
       name: "relatedVehicles",
       type: "relationship",
       relationTo: "vehicles",
@@ -102,6 +149,48 @@ export const Articles: CollectionConfig = {
           name: "keywords",
           type: "text",
           label: "SEO Keywords"
+        },
+        {
+          name: "metaImage",
+          type: "upload",
+          relationTo: "media",
+          label: "Social Share Image"
+        }
+      ]
+    },
+    {
+      name: "comments",
+      type: "array",
+      admin: {
+        description: "User comments and reactions"
+      },
+      fields: [
+        {
+          name: "user",
+          type: "relationship",
+          relationTo: "users",
+          required: true
+        },
+        {
+          name: "content",
+          type: "textarea",
+          required: true
+        },
+        {
+          name: "reaction",
+          type: "select",
+          options: [
+            { label: "Like", value: "like" },
+            { label: "Love", value: "love" },
+            { label: "Helpful", value: "helpful" }
+          ]
+        },
+        {
+          name: "createdAt",
+          type: "date",
+          admin: {
+            readOnly: true
+          }
         }
       ]
     },
