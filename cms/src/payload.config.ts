@@ -11,6 +11,7 @@ import Users from './collections/Users'
 import Vehicles from './collections/Vehicles'
 import Articles from './collections/Articles'
 import Comments from './collections/Comments'
+import MediaCollection from './collections/Media'
 
 export default buildConfig({
   admin: {
@@ -23,7 +24,7 @@ export default buildConfig({
     },
   },
   editor: slateEditor({}),
-  collections: [Users, Vehicles, Articles, Comments],
+  collections: [Users, Vehicles, Articles, Comments, MediaCollection],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
@@ -43,7 +44,7 @@ export default buildConfig({
     }),
   ],
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI,
+    url: process.env.MONGODB_URI,
   }),
   upload: {
     staticDir: path.resolve(__dirname, '../media'),
