@@ -1,14 +1,19 @@
-import { Outlet } from "react-router-dom";
+import { Box, Container } from "@mui/material";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import { Box, Container } from "@mui/material";
+import ConnectionStatus from "../components/status/ConnectionStatus";
 
-const MainLayout = () => {
+interface MainLayoutProps {
+  children: React.ReactNode;
+}
+
+const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <Container component="main" sx={{ flex: 1, py: 4 }}>
-        <Outlet />
+        <ConnectionStatus />
+        {children}
       </Container>
       <Footer />
     </Box>
