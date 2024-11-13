@@ -1,0 +1,27 @@
+services:
+  - name: frontend
+    type: web
+    buildCommand: cd frontend && pnpm install && pnpm build
+    startCommand: cd frontend && pnpm preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://api.topgear.ph/api
+    autoDeploy: true
+
+  - name: backend
+    type: web
+    buildCommand: cd cms && pnpm install
+    startCommand: cd cms && pnpm start
+    envVars:
+      - key: DATABASE_URI
+        value: mongodb://mongo:27017/topgear
+      - key: NODE_ENV
+        value: production
+      - key: PAYLOAD_SECRET
+        value: ${PAYLOAD_SECRET}
+    autoDeploy: true
+
+databases:
+  - name: mongo
+    type: mongodb
+    ipAllowList: []
