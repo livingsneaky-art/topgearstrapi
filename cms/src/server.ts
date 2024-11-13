@@ -1,19 +1,27 @@
-import express from "express";
-import payload from "payload";
-import cors from "cors";
+import express from 'express'
+import payload from 'payload'
 
-const app = express();
-app.use(cors());
+require('dotenv').config()
+const app = express()
+
+// Redirect root to Admin panel
+app.get('/', (_, res) => {
+  res.redirect('/admin')
+})
 
 const start = async () => {
+  // Initialize Payload
   await payload.init({
-    secret: "your-secret-key",
+    secret: process.env.PAYLOAD_SECRET,
     express: app,
-  });
+    onInit: async () => {
+      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
+    },
+  })
 
-  app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
-  });
-};
+  // Add your own express routes here
 
-start();
+  app.listen(3000)
+}
+
+start()

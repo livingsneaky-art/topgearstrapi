@@ -1,58 +1,54 @@
-import { CollectionConfig } from "payload/types";
+import { CollectionConfig } from 'payload/types';
 
-export const Media: CollectionConfig = {
-  slug: "media",
+const Media: CollectionConfig = {
+  slug: 'media',
+  access: {
+    read: () => true,
+  },
+  admin: {
+    useAsTitle: 'filename',
+  },
   upload: {
-    staticDir: "media",
-    staticURL: "/media",
+    staticDir: '../media',
+    staticURL: '/media',
     imageSizes: [
       {
-        name: "thumbnail",
+        name: 'thumbnail',
         width: 400,
         height: 300,
-        position: "centre"
+        position: 'centre',
       },
       {
-        name: "card",
+        name: 'card',
         width: 768,
-        height: 512,
-        position: "centre"
+        height: 576,
+        position: 'centre',
       },
       {
-        name: "feature",
+        name: 'feature',
         width: 1920,
         height: 1080,
-        position: "centre"
-      }
+        position: 'centre',
+      },
     ],
-    adminThumbnail: "thumbnail",
-    mimeTypes: ["image/*"]
-  },
-  access: {
-    read: () => true
+    adminThumbnail: 'thumbnail',
+    mimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
   },
   fields: [
     {
-      name: "alt",
-      type: "text",
-      required: true
+      name: 'alt',
+      type: 'text',
+      required: true,
     },
     {
-      name: "caption",
-      type: "text"
+      name: 'caption',
+      type: 'text',
     },
     {
-      name: "credit",
-      type: "text"
+      name: 'credit',
+      type: 'text',
     },
-    {
-      name: "category",
-      type: "select",
-      options: [
-        { label: "Vehicle", value: "vehicle" },
-        { label: "Article", value: "article" },
-        { label: "User", value: "user" }
-      ]
-    }
-  ]
+  ],
 };
+
+export default Media;

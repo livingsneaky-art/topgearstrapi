@@ -1,35 +1,38 @@
 services:
-  - name: frontend
-    type: web
-    env: node
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run preview
-    envVars:
-      - key: VITE_API_URL
-        value: https://api.topgear.onrender.com/api
-    autoDeploy: true
-    domains:
-      - topgear.onrender.com
-
-  - name: backend
+  - name: topgear-cms
     type: web
     env: node
     buildCommand: cd cms && npm install && npm run build
-    startCommand: cd cms && npm run start
+    startCommand: cd cms && npm run serve
     envVars:
-      - key: DATABASE_URI
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
         sync: false
       - key: PAYLOAD_SECRET
         sync: false
+      - key: PAYLOAD_PUBLIC_SERVER_URL
+        value: https://topgear-cms.onrender.com
+    healthCheckPath: /api/healthz
+    autoDeploy: true
+    branch: render-deployment
+
+  - name: topgear-frontend
+    type: web
+    env: node
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm run start
+    envVars:
       - key: NODE_ENV
         value: production
-      - key: CORS_ORIGIN
-        value: https://topgear.onrender.com
+      - key: NEXT_PUBLIC_CMS_URL
+        value: https://topgear-cms.onrender.com
+    healthCheckPath: /api/health
     autoDeploy: true
-    domains:
-      - api.topgear.onrender.com
+    branch: render-deployment
 
 databases:
-  - name: mongo
-    databaseName: topgear
+  - name: topgear-mongodb
+    databaseName: topgear-cms
     ipAllowList: []
+    plan: free

@@ -1,305 +1,140 @@
-import { CollectionConfig } from "payload/types";
+import { CollectionConfig } from 'payload/types';
 
-export const Vehicles: CollectionConfig = {
-  slug: "vehicles",
+const Vehicles: CollectionConfig = {
+  slug: 'vehicles',
   admin: {
-    useAsTitle: "name",
-    defaultColumns: ["name", "brand", "category", "status"],
-    description: "Manage vehicle listings and specifications"
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'brand', 'type', 'year'],
   },
   access: {
-    read: () => true
+    read: () => true,
   },
   fields: [
     {
-      name: "name",
-      type: "text",
-      required: true
-    },
-    {
-      name: "brand",
-      type: "text",
+      name: 'name',
+      type: 'text',
       required: true,
-      admin: {
-        description: "Vehicle manufacturer"
-      }
     },
     {
-      name: "category",
-      type: "select",
+      name: 'brand',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'type',
+      type: 'select',
       options: [
-        { label: "Car", value: "car" },
-        { label: "SUV", value: "suv" },
-        { label: "Truck", value: "truck" },
-        { label: "Van", value: "van" },
-        { label: "Motorcycle", value: "motorcycle" }
+        { label: 'Car', value: 'car' },
+        { label: 'SUV', value: 'suv' },
+        { label: 'Truck', value: 'truck' },
+        { label: 'Van', value: 'van' },
+        { label: 'Motorcycle', value: 'motorcycle' },
       ],
-      required: true
+      required: true,
     },
     {
-      name: "featuredImage",
-      type: "upload",
-      relationTo: "media",
-      required: true
+      name: 'year',
+      type: 'number',
+      required: true,
     },
     {
-      name: "gallery",
-      type: "array",
+      name: 'price',
+      type: 'number',
+      required: true,
+    },
+    {
+      name: 'description',
+      type: 'richText',
+      required: true,
+    },
+    {
+      name: 'specifications',
+      type: 'array',
       fields: [
         {
-          name: "image",
-          type: "upload",
-          relationTo: "media",
-          required: true
+          name: 'category',
+          type: 'text',
+          required: true,
         },
         {
-          name: "caption",
-          type: "text"
-        }
-      ]
-    },
-    {
-      name: "specifications",
-      type: "group",
-      fields: [
-        {
-          name: "engine",
-          type: "group",
+          name: 'details',
+          type: 'array',
           fields: [
             {
-              name: "type",
-              type: "text",
-              required: true
+              name: 'label',
+              type: 'text',
+              required: true,
             },
             {
-              name: "displacement",
-              type: "text"
+              name: 'value',
+              type: 'text',
+              required: true,
             },
-            {
-              name: "power",
-              type: "text"
-            },
-            {
-              name: "torque",
-              type: "text"
-            }
-          ]
-        },
-        {
-          name: "transmission",
-          type: "group",
-          fields: [
-            {
-              name: "type",
-              type: "text",
-              required: true
-            },
-            {
-              name: "gears",
-              type: "number"
-            }
-          ]
-        },
-        {
-          name: "performance",
-          type: "group",
-          fields: [
-            {
-              name: "acceleration",
-              type: "text"
-            },
-            {
-              name: "topSpeed",
-              type: "text"
-            }
-          ]
-        },
-        {
-          name: "dimensions",
-          type: "group",
-          fields: [
-            {
-              name: "length",
-              type: "text"
-            },
-            {
-              name: "width",
-              type: "text"
-            },
-            {
-              name: "height",
-              type: "text"
-            },
-            {
-              name: "wheelbase",
-              type: "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "price",
-      type: "group",
-      fields: [
-        {
-          name: "base",
-          type: "number",
-          required: true
-        },
-        {
-          name: "currency",
-          type: "select",
-          options: [
-            { label: "PHP", value: "PHP" },
-            { label: "USD", value: "USD" }
           ],
-          defaultValue: "PHP",
-          required: true
-        }
-      ]
+        },
+      ],
     },
     {
-      name: "status",
-      type: "select",
+      name: 'images',
+      type: 'array',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'caption',
+          type: 'text',
+        },
+      ],
+    },
+    {
+      name: 'features',
+      type: 'array',
+      fields: [
+        {
+          name: 'feature',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+        },
+      ],
+    },
+    {
+      name: 'status',
+      type: 'select',
       options: [
-        { label: "Draft", value: "draft" },
-        { label: "Published", value: "published" },
-        { label: "Archived", value: "archived" }
+        { label: 'Available', value: 'available' },
+        { label: 'Coming Soon', value: 'coming-soon' },
+        { label: 'Discontinued', value: 'discontinued' },
       ],
-      defaultValue: "draft",
-      required: true
+      defaultValue: 'available',
+      required: true,
     },
     {
-      name: "seo",
-      type: "group",
+      name: 'seo',
+      type: 'group',
       fields: [
         {
-          name: "title",
-          type: "text",
-          label: "SEO Title"
+          name: 'title',
+          type: 'text',
         },
         {
-          name: "description",
-          type: "textarea",
-          label: "SEO Description"
+          name: 'description',
+          type: 'textarea',
         },
         {
-          name: "keywords",
-          type: "text",
-          label: "SEO Keywords"
+          name: 'keywords',
+          type: 'text',
         },
-        {
-          name: "metaImage",
-          type: "upload",
-          relationTo: "media",
-          label: "Social Share Image"
-        }
-      ]
+      ],
     },
-    {
-      name: "reviews",
-      type: "array",
-      admin: {
-        description: "User reviews and ratings"
-      },
-      fields: [
-        {
-          name: "user",
-          type: "relationship",
-          relationTo: "users",
-          required: true
-        },
-        {
-          name: "rating",
-          type: "select",
-          options: [
-            { label: "1 Star", value: "1" },
-            { label: "2 Stars", value: "2" },
-            { label: "3 Stars", value: "3" },
-            { label: "4 Stars", value: "4" },
-            { label: "5 Stars", value: "5" }
-          ],
-          required: true
-        },
-        {
-          name: "comment",
-          type: "textarea",
-          required: true
-        },
-        {
-          name: "createdAt",
-          type: "date",
-          admin: {
-            readOnly: true
-          }
-        }
-      ]
-    },
-    {
-      name: "inquiries",
-      type: "array",
-      admin: {
-        description: "Lead generation inquiries"
-      },
-      fields: [
-        {
-          name: "name",
-          type: "text",
-          required: true
-        },
-        {
-          name: "email",
-          type: "email",
-          required: true
-        },
-        {
-          name: "phone",
-          type: "text"
-        },
-        {
-          name: "type",
-          type: "select",
-          options: [
-            { label: "General Inquiry", value: "general" },
-            { label: "Test Drive Request", value: "test_drive" },
-            { label: "Price Quote", value: "price_quote" }
-          ],
-          required: true
-        },
-        {
-          name: "message",
-          type: "textarea",
-          required: true
-        },
-        {
-          name: "status",
-          type: "select",
-          options: [
-            { label: "New", value: "new" },
-            { label: "In Progress", value: "in_progress" },
-            { label: "Completed", value: "completed" }
-          ],
-          defaultValue: "new",
-          required: true
-        },
-        {
-          name: "createdAt",
-          type: "date",
-          admin: {
-            readOnly: true
-          }
-        }
-      ]
-    },
-    {
-      name: "relatedVehicles",
-      type: "relationship",
-      relationTo: "vehicles",
-      hasMany: true,
-      admin: {
-        description: "Similar vehicles for recommendations"
-      }
-    }
-  ]
+  ],
 };
+
+export default Vehicles;
