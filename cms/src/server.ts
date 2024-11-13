@@ -1,6 +1,7 @@
 import express from "express";
 import payload from "payload";
 import cors from "cors";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -11,6 +12,16 @@ app.use(cors({
     : ["http://localhost:3000"],
   credentials: true,
 }));
+
+// Health check endpoints
+app.get("/api/health", async (req, res) => {
+  const status = {
+    server: "healthy",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    timestamp: new Date().toISOString()
+  };
+  res.json(status);
+});
 
 // Initialize Payload
 payload.init({
