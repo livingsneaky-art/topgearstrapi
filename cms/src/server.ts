@@ -29,11 +29,15 @@ const start = async () => {
   await payload.init({
     secret: process.env.PAYLOAD_SECRET || "default-secret-key",
     express: app,
-    db: mongooseAdapter({
+    database: mongooseAdapter({
       url: process.env.DATABASE_URI || "mongodb://localhost:27017/topgear",
     }),
-    editor: slateEditor({}),
-    bundler: webpackBundler(),
+    config: {
+      editor: slateEditor({}),
+      admin: {
+        bundler: webpackBundler(),
+      },
+    },
   });
 
   const port = process.env.PORT || 3001;
