@@ -1,7 +1,9 @@
 import express from "express";
 import payload from "payload";
 import cors from "cors";
-import mongoose from "mongoose";
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { webpackBundler } from "@payloadcms/bundler-webpack";
+import { slateEditor } from "@payloadcms/richtext-slate";
 
 const app = express();
 
@@ -13,21 +15,31 @@ app.use(cors({
   credentials: true,
 }));
 
-// Health check endpoints
+// Health check endpoint
 app.get("/api/health", async (req, res) => {
   const status = {
     server: "healthy",
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    database: payload.db?.connection?.readyState === 1 ? "connected" : "disconnected",
     timestamp: new Date().toISOString()
   };
   res.json(status);
 });
 
-// Initialize Payload
-payload.init({
-  secret: process.env.PAYLOAD_SECRET || "default-secret-key",
-  mongoURL: process.env.DATABASE_URI || "mongodb://localhost/topgear",
-  express: app,
-});
+const start = async () => {
+  await payload.init({
+    secret: process.env.PAYLOAD_SECRET || "default-secret-key",
+    express: app,
+    db: mongooseAdapter({
+      url: process.env.DATABASE_URI || "mongodb://localhost:27017/topgear",
+    }),
+    editor: slateEditor({}),
+    bundler: webpackBundler(),
+  });
 
-app.listen(process.env.PORT || 3001);
+  const port = process.env.PORT || 3001;
+  app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+  });
+};
+
+start();
