@@ -14,7 +14,6 @@ export default buildConfig({
     user: Users.slug,
     bundler: webpackBundler(),
   },
-  editor: slateEditor({}),
   collections: [
     Users,
     Media,
@@ -33,7 +32,8 @@ export default buildConfig({
       collections: ["articles", "vehicles"],
     }),
   ],
-  db: mongooseAdapter({
+  database: mongooseAdapter({
     url: process.env.DATABASE_URI || "mongodb://localhost:27017/topgear",
   }),
+  editor: slateEditor({}),
 });

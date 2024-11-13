@@ -2,8 +2,8 @@ import express from "express";
 import payload from "payload";
 import cors from "cors";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { webpackBundler } from "@payloadcms/bundler-webpack";
-import { slateEditor } from "@payloadcms/richtext-slate";
+import path from "path";
+import config from "./payload.config";
 
 const app = express();
 
@@ -29,15 +29,7 @@ const start = async () => {
   await payload.init({
     secret: process.env.PAYLOAD_SECRET || "default-secret-key",
     express: app,
-    database: mongooseAdapter({
-      url: process.env.DATABASE_URI || "mongodb://localhost:27017/topgear",
-    }),
-    config: {
-      editor: slateEditor({}),
-      admin: {
-        bundler: webpackBundler(),
-      },
-    },
+    config,
   });
 
   const port = process.env.PORT || 3001;
