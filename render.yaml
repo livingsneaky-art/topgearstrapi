@@ -1,8 +1,9 @@
 services:
   - name: frontend
     type: web
-    buildCommand: cd frontend && pnpm install && pnpm build
-    startCommand: cd frontend && pnpm preview
+    env: node
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm run preview
     envVars:
       - key: VITE_API_URL
         value: https://api.topgear.ph/api
@@ -10,18 +11,19 @@ services:
 
   - name: backend
     type: web
-    buildCommand: cd cms && pnpm install
-    startCommand: cd cms && pnpm start
+    env: node
+    buildCommand: cd cms && npm install
+    startCommand: cd cms && npm run start
     envVars:
       - key: DATABASE_URI
-        value: mongodb://mongo:27017/topgear
+        sync: false
+      - key: PAYLOAD_SECRET
+        sync: false
       - key: NODE_ENV
         value: production
-      - key: PAYLOAD_SECRET
-        value: ${PAYLOAD_SECRET}
     autoDeploy: true
 
 databases:
   - name: mongo
-    type: mongodb
+    databaseName: topgear
     ipAllowList: []
