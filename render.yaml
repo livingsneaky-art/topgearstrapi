@@ -6,13 +6,15 @@ services:
     startCommand: cd frontend && npm run preview
     envVars:
       - key: VITE_API_URL
-        value: https://api.topgear.ph/api
+        value: https://api.topgear.onrender.com/api
     autoDeploy: true
+    domains:
+      - topgear.onrender.com
 
   - name: backend
     type: web
     env: node
-    buildCommand: cd cms && npm install
+    buildCommand: cd cms && npm install && npm run build
     startCommand: cd cms && npm run start
     envVars:
       - key: DATABASE_URI
@@ -21,7 +23,11 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
+      - key: CORS_ORIGIN
+        value: https://topgear.onrender.com
     autoDeploy: true
+    domains:
+      - api.topgear.onrender.com
 
 databases:
   - name: mongo
