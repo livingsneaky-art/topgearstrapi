@@ -12,10 +12,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "paths": {
-      "payload/generated-types": ["./src/payload-types.ts"]
-    }
+    "noEmit": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "build"]
